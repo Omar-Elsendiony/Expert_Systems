@@ -7,6 +7,9 @@ from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from pyswip import Prolog
 ##########################################################################################
+import os
+os.environ['PATH'] = f"/usr/bin/swipl:{os.environ['PATH']}"
+
 
 app = Flask(__name__ , static_url_path='')
 cors = CORS(app)
