@@ -14,7 +14,7 @@
             background-color: #f9f9f9;
         }
         h1 {
-            color: #2c5e1a;
+            color:rgb(81, 165, 51);
             text-align: center;
             margin-bottom: 30px;
         }
@@ -186,6 +186,7 @@
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/soybean.png') }}" alt="soybean image" style="width: 100px; display: block; margin: 0 auto;">
     <h1>Soybean Disease Diagnosis System</h1>
     
     <h2 class="section-title">Plant & Environment Features</h2>
@@ -548,14 +549,14 @@
         </div>
     </div>
     
-    <h2>Algorithm Selection</h2>
+    <h1>Algorithm Selection</h1>
     <div class="algorithm-options">
     
         <label class="algorithm-card" for="algorithm-id3">
             <input type="radio" id="algorithm-id3" name="algorithm" value="id3" checked hidden>
             <div>
                 <strong>ID3 Decision Tree</strong>
-                <p>A classic decision tree algorithm that uses information gain to select attributes.</p>
+                <p>A decision tree algorithm that recursively selects attributes with the highest information gain to create classification rules.</p>
             </div>
         </label>
     
@@ -563,7 +564,7 @@
             <input type="radio" id="algorithm-cn2" name="algorithm" value="cn2" hidden>
             <div>
                 <strong>CN2 Algorithm</strong>
-                <p>An improved version of ID3 that handles continuous attributes and missing values better.</p>
+                <p>A rule induction algorithm that sequentially creates classification rules using entropy measures, handling noisy data better than earlier rule-based systems.</p>
             </div>
         </label>
     
@@ -571,7 +572,7 @@
             <input type="radio" id="algorithm-apriori" name="algorithm" value="apriori" hidden>
             <div>
                 <strong>Apriori</strong>
-                <p>An ensemble learning method that constructs multiple decision trees for better accuracy.</p>
+                <p>An association rule mining algorithm that identifies frequent itemsets in transaction databases by leveraging the principle that all subsets of a frequent itemset must also be frequent.</p>
             </div>
         </label>
     

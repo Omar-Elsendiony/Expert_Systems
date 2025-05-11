@@ -3,14 +3,18 @@
 #################### flask imports ###########################################################
 # import requests
 from os import environ
+import json
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from hashlib import md5
-
 ##########################################################################################
 
 app = Flask(__name__ , static_url_path='')
 cors = CORS(app)
+
+
+with open('rules/attribute_name_values.json', 'r') as f:
+    attribute_name_values = json.load(f)
 
 
 @app.route('/', strict_slashes=False, methods=["POST", "GET"])
@@ -29,9 +33,11 @@ def diagnose():
     features = data.get('features')
 
     # Log received data for debugging
-    print("Algorithm:", algorithm)
-    print("Chaining:", chaining)
-    print("Features:", features)
+    # print("Algorithm:", algorithm)
+    # print("Chaining:", chaining)
+    # print("Features:", features)
+
+    features_indexed = {k: v for k, v in features.items() if k in attribute_name_values}
 
     # TODO: Run your diagnosis logic here using the input data
     # Dummy result for demonstration
