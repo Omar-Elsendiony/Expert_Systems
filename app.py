@@ -2,11 +2,10 @@
 """ Flask Application """
 #################### flask imports ###########################################################
 # import requests
-from os import environ
 import json
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-from hashlib import md5
+from pyswip import Prolog
 ##########################################################################################
 
 app = Flask(__name__ , static_url_path='')
@@ -31,20 +30,43 @@ def diagnose():
     algorithm = data.get('algorithm')
     chaining = data.get('chaining')
     features = data.get('features')
-
+    print(features)
     # Log received data for debugging
     # print("Algorithm:", algorithm)
     # print("Chaining:", chaining)
     # print("Features:", features)
 
-    features_indexed = {k: v for k, v in features.items() if k in attribute_name_values}
+    features['fruit spots'] = features['fruit-spots']
+    del features['fruit-spots']
 
+    features['external decay'] = features['external-decay']
+    del features['external-decay']
+    
+    features_indexed = {
+        k: -1 if v == '?' else attribute_name_values[k].index(v)
+        for k, v in features.items()
+    }
+    prolog = Prolog()
+    prolog.consult("rules/rules_dt_prolog.pl")
+    
+    features = []
+    for k, v in features_indexed.items():
+        features.append(f'feature(\'{k}\', {v})')
+    features_str = ', '.join(features)
+    prolog_response = prolog.query(f"classify([{features_str}], Category, RuleID).")
+    res = ""
+    for soln in prolog_response:
+        res = soln['Category']
+        res = res.replace("\"", "").replace('\n','')
+        rule_id = soln['RuleID']
+        print(f"Rule {rule_id} fired → Prediction: {res}")
+    
     # TODO: Run your diagnosis logic here using the input data
     # Dummy result for demonstration
     result = {
-        "disease": "Flu",
+        "disease": res,
         "confidence": "92%",
-        "recommendation": "Stay hydrated and get plenty of rest"
+        "interpretation": "The reasons for the diagnosis are as follows: ...",
     }
 
     return jsonify(result), 200
