@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soybean Disease Diagnosis System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c5e1a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+        .algorithm-section {
+            background-color: #e8f4e5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .algorithm-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .algorithm-card {
+            flex: 1;
+            min-width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: white;
+        }
+        .radio-group {
+            margin-top: 10px;
+        }
+        .radio-option {
+            margin-right: 15px;
+        }
+        button {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .result-section {
+            margin-top: 20px;
+        }
+        .section-title {
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            color: #2c5e1a;
+        }
+
+        .algorithm-card {
+            display: block;
+            border: 1px solid #ccc;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .algorithm-card:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Hide the radio buttons */
+        .algorithm-card input[type="radio"] {
+            display: none;
+        }
+        
+        /* Highlight the card if its radio button is checked */
+        .algorithm-card:has(input[type="radio"]:checked) {
+            border-color: #007bff;
+            background-color: #e6f0ff;
+        }
+        
+        .chaining-options {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+        }
+        
+        .chaining-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .radio-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .radio-option input[type="radio"] {
+            accent-color: #007bff;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Soybean Disease Diagnosis System</h1>
+    
+    <h2 class="section-title">Plant & Environment Features</h2>
+    <div class="container">
+        <div class="feature">
+            <label for="date">Date:</label>
+            <select id="date">
+                <option value="?">?</option>
+                <option value="april">April</option>
+                <option value="may">May</option>
+                <option value="june">June</option>
+                <option value="july">July</option>
+                <option value="august">August</option>
+                <option value="september">September</option>
+                <option value="october">October</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="plant-stand">Plant Stand:</label>
+            <select id="plant-stand">
+                <option value="?">?</option>
+                <option value="normal">Normal</option>
+                <option value="lt-normal">Less than normal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="precip">Precipitation:</label>
+            <select id="precip">
+                <option value="?">?</option>
+                <option value="lt-norm">Less than normal</option>
+                <option value="norm">Normal</option>
+                <option value="gt-norm">Greater than normal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="temp">Temperature:</label>
+            <select id="temp">
+                <option value="?">?</option>
+                <option value="lt-norm">Less than normal</option>
+                <option value="norm">Normal</option>
+                <option value="gt-norm">Greater than normal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="hail">Hail:</label>
+            <select id="hail">
+                <option value="?">?</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="crop-hist">Crop History:</label>
+            <select id="crop-hist">
+                <option value="?">?</option>
+                <option value="diff-lst-year">Different last year</option>
+                <option value="same-lst-yr">Same last year</option>
+                <option value="same-lst-two-yrs">Same last two years</option>
+                <option value="same-lst-sev-yrs">Same last several years</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="area-damaged">Area Damaged:</label>
+            <select id="area-damaged">
+                <option value="?">?</option>
+                <option value="scattered">Scattered</option>
+                <option value="low-areas">Low areas</option>
+                <option value="upper-areas">Upper areas</option>
+                <option value="whole-field">Whole field</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="severity">Severity:</label>
+            <select id="severity">
+                <option value="?">?</option>
+                <option value="minor">Minor</option>
+                <option value="pot-severe">Potentially severe</option>
+                <option value="severe">Severe</option>
+            </select>
+        </div>
+    </div>
+    
+    <h2 class="section-title">Seed & Germination Features</h2>
+    <div class="container">
+        <div class="feature">
+            <label for="seed-tmt">Seed Treatment:</label>
+            <select id="seed-tmt">
+                <option value="?">?</option>
+                <option value="none">None</option>
+                <option value="fungicide">Fungicide</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="germination">Germination:</label>
+            <select id="germination">
+                <option value="?">?</option>
+                <option value="90-100%">90-100%</option>
+                <option value="80-89%">80-89%</option>
+                <option value="lt-80%">Less than 80%</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="plant-growth">Plant Growth:</label>
+            <select id="plant-growth">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="abnorm">Abnormal</option>
+            </select>
+        </div>
+    </div>
+    
+    <h2 class="section-title">Leaf Features</h2>
+    <div class="container">
+        <div class="feature">
+            <label for="leaves">Leaves:</label>
+            <select id="leaves">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="abnorm">Abnormal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leafspots-halo">Leafspots Halo:</label>
+            <select id="leafspots-halo">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="yellow-halos">Yellow halos</option>
+                <option value="no-yellow-halos">No yellow halos</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leafspots-marg">Leafspots Margin:</label>
+            <select id="leafspots-marg">
+                <option value="?">?</option>
+                <option value="w-s-marg">With spots margin</option>
+                <option value="no-w-s-marg">No spots margin</option>
+                <option value="dna">Does not apply</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leafspot-size">Leafspot Size:</label>
+            <select id="leafspot-size">
+                <option value="?">?</option>
+                <option value="lt-1/8">Less than 1/8 inch</option>
+                <option value="gt-1/8">Greater than 1/8 inch</option>
+                <option value="dna">Does not apply</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leaf-shread">Leaf Shredding:</label>
+            <select id="leaf-shread">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leaf-malf">Leaf Malformation:</label>
+            <select id="leaf-malf">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="leaf-mild">Leaf Mildew:</label>
+            <select id="leaf-mild">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="upper-surf">Upper surface</option>
+                <option value="lower-surf">Lower surface</option>
+            </select>
+        </div>
+    </div>
+    
+    <h2 class="section-title">Stem Features</h2>
+    <div class="container">
+        <div class="feature">
+            <label for="stem">Stem:</label>
+            <select id="stem">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="abnorm">Abnormal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="lodging">Lodging:</label>
+            <select id="lodging">
+                <option value="?">?</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="stem-cankers">Stem Cankers:</label>
+            <select id="stem-cankers">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="below-soil">Below soil line</option>
+                <option value="above-soil">Above soil line</option>
+                <option value="above-sec-nde">Above second node</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="canker-lesion">Canker Lesion:</label>
+            <select id="canker-lesion">
+                <option value="?">?</option>
+                <option value="dna">Does not apply</option>
+                <option value="brown">Brown</option>
+                <option value="dk-brown-blk">Dark brown-black</option>
+                <option value="tan">Tan</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="fruiting-bodies">Fruiting Bodies:</label>
+            <select id="fruiting-bodies">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="external-decay">External Decay:</label>
+            <select id="external-decay">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="firm-and-dry">Firm and dry</option>
+                <option value="watery">Watery</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="mycelium">Mycelium:</label>
+            <select id="mycelium">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="int-discolor">Internal Discoloration:</label>
+            <select id="int-discolor">
+                <option value="?">?</option>
+                <option value="none">None</option>
+                <option value="brown">Brown</option>
+                <option value="black">Black</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="sclerotia">Sclerotia:</label>
+            <select id="sclerotia">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+    </div>
+    
+    <h2 class="section-title">Fruit & Seed Features</h2>
+    <div class="container">
+        <div class="feature">
+            <label for="fruit-pods">Fruit Pods:</label>
+            <select id="fruit-pods">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="diseased">Diseased</option>
+                <option value="few-present">Few present</option>
+                <option value="dna">Does not apply</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="fruit-spots">Fruit Spots:</label>
+            <select id="fruit-spots">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="colored">Colored</option>
+                <option value="brown-w/blk-specks">Brown with black specks</option>
+                <option value="distort">Distorted</option>
+                <option value="dna">Does not apply</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="seed">Seed:</label>
+            <select id="seed">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="abnorm">Abnormal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="mold-growth">Mold Growth:</label>
+            <select id="mold-growth">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="seed-discolor">Seed Discoloration:</label>
+            <select id="seed-discolor">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="seed-size">Seed Size:</label>
+            <select id="seed-size">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="lt-norm">Less than normal</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="shriveling">Shriveling:</label>
+            <select id="shriveling">
+                <option value="?">?</option>
+                <option value="absent">Absent</option>
+                <option value="present">Present</option>
+            </select>
+        </div>
+        
+        <div class="feature">
+            <label for="roots">Roots:</label>
+            <select id="roots">
+                <option value="?">?</option>
+                <option value="norm">Normal</option>
+                <option value="rotted">Rotted</option>
+                <option value="galls-cysts">Galls or cysts</option>
+            </select>
+        </div>
+    </div>
+    
+    <h2>Algorithm Selection</h2>
+    <div class="algorithm-options">
+    
+        <label class="algorithm-card" for="algorithm-id3">
+            <input type="radio" id="algorithm-id3" name="algorithm" value="id3" checked hidden>
+            <div>
+                <strong>ID3 Decision Tree</strong>
+                <p>A classic decision tree algorithm that uses information gain to select attributes.</p>
+            </div>
+        </label>
+    
+        <label class="algorithm-card" for="algorithm-cn2">
+            <input type="radio" id="algorithm-cn2" name="algorithm" value="cn2" hidden>
+            <div>
+                <strong>CN2 Algorithm</strong>
+                <p>An improved version of ID3 that handles continuous attributes and missing values better.</p>
+            </div>
+        </label>
+    
+        <label class="algorithm-card" for="algorithm-apriori">
+            <input type="radio" id="algorithm-apriori" name="algorithm" value="apriori" hidden>
+            <div>
+                <strong>Apriori</strong>
+                <p>An ensemble learning method that constructs multiple decision trees for better accuracy.</p>
+            </div>
+        </label>
+    
+    </div>
+    
+    <!-- Shared chaining options -->
+    <div class="chaining-options">
+        <span class="chaining-label">Chaining:</span>
+        <label class="radio-option">
+            <input type="radio" name="chaining" value="forward" checked>
+            <span>Forward</span>
+        </label>
+        <label class="radio-option">
+            <input type="radio" name="chaining" value="backward">
+            <span>Backward</span>
+        </label>
+    </div>
+
+    
+    
+    <button id="diagnose-btn">Diagnose Disease</button>
+    
+    <!-- Modal for displaying results -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Diagnosis Results</h2>
+            <div class="result-section">
+                <h3>Selected Algorithm:</h3>
+                <p id="selected-algorithm"></p>
+                
+                <h3>Chaining Method:</h3>
+                <p id="chaining-method"></p>
+                
+                <h3>Diagnosis:</h3>
+                <p id="diagnosis-result">Based on the provided features, the most likely disease is: <strong id="disease-name">Phytophthora Root Rot</strong></p>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get modal elements
+        const modal = document.getElementById("resultModal");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        const diagnoseBtn = document.getElementById("diagnose-btn");
+        
+        // Define possible diseases for the demo
+        const possibleDiseases = [
+            {
+                name: "Phytophthora Root Rot",
+                confidence: "85%",
+                recommendation: "Consider applying fungicide and improving field drainage."
+            },
+            {
+                name: "Brown Stem Rot",
+                confidence: "78%",
+                recommendation: "Implement crop rotation and use resistant varieties next season."
+            },
+            {
+                name: "Bacterial Blight",
+                confidence: "92%",
+                recommendation: "Apply copper-based bactericide and avoid overhead irrigation."
+            },
+            {
+                name: "Soybean Cyst Nematode",
+                confidence: "88%",
+                recommendation: "Use resistant cultivars and rotate with non-host crops."
+            },
+            {
+                name: "Downy Mildew",
+                confidence: "75%",
+                recommendation: "Apply appropriate fungicide and improve air circulation."
+            }
+        ];
+        
+        // Open modal when diagnose button is clicked
+        diagnoseBtn.onclick = async function() {
+            // Get selected algorithm
+            let algorithm = "";
+            if (document.getElementById("algorithm-id3").checked) {
+                algorithm = "ID3";
+            } else if (document.getElementById("algorithm-cn2").checked) {
+                algorithm = "CN2";
+            } else if (document.getElementById("algorithm-apriori").checked) {
+                algorithm = "Apriori";
+            }
+            
+            // Get selected chaining method
+            let chainingMethod = "";
+            chainingMethod = document.querySelector('input[name="chaining"]:checked').value;
+
+            // Validate selections
+            const selectedFeatures = {};
+            document.querySelectorAll('select').forEach(select => {
+                selectedFeatures[select.id] = select.value;
+                console.log(select.id, select.value);
+            });
+            // console.log(document.querySelectorAll('select'));
+            // alert(Object.keys(selectedFeatures).length); // Correct length
+            // return;
+            
+            
+
+            // Send data to backend API
+                const response = await fetch('/diagnose', {  // Replace with your actual endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        algorithm: algorithm,
+                        chaining: chainingMethod,
+                        features: selectedFeatures
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Diagnosis request failed");
+                }
+
+                const data = await response.json();
+                modal.style.display = "block";
+                // Update modal content
+                document.getElementById("selected-algorithm").textContent = algorithm;
+                document.getElementById("chaining-method").textContent = chainingMethod + " Chaining";
+                document.getElementById("disease-name").textContent = data.disease;
+                // document.getElementById("confidence-level").textContent = data.confidence;
+                // document.getElementById("recommendation").textContent = data.recommendation;
+
+                // Show modal
+                modal.style.display = "block";
+
+
+        };
+        
+        // Close modal when X is clicked
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        };
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
+
+    <script>
+        const chainingRadios = document.querySelectorAll('input[name="chaining"]');
+        chainingRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('.radio-option').forEach(el => el.classList.remove('selected'));
+                radio.parentElement.classList.add('selected');
+            });
+        });
+    
+        // Set initial selection
+        document.querySelector('input[name="chaining"]:checked').parentElement.classList.add('selected');
+    </script>
+    
+    <style>
+        .radio-option.selected {
+            background-color: #e6f0ff;
+            font-weight: 600;
+            border: 1px solid #007bff;
+        }
+    </style>
+    
+</body>
+</html>
