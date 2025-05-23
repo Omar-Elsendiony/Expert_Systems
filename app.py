@@ -49,17 +49,17 @@ def diagnose():
     algorithm = algorithm_name_technique_mapping.get(algorithm, algorithm)
     if (algorithm == "decision_tree"):
         if (chaining == "backward"):
-            result = backward(features, attribute_name_values)
+            result = backward(features, attribute_name_values, algorithm="decision_tree")
         elif (chaining == "forward"):
             result = forward(features, attribute_name_values, algorithm="decision_tree")
         else:
             result = {
                 "disease": "No Result",
-            }   
+            }
         return jsonify(result), 200
     elif (algorithm == "covering"):
         if (chaining == "backward"):
-            result = backward(features, attribute_name_values)
+            result = backward(features, attribute_name_values, algorithm="covering")
         elif (chaining == "forward"):
             result = forward(features, attribute_name_values, algorithm="covering")
         else:
@@ -69,7 +69,7 @@ def diagnose():
         return jsonify(result), 200
     elif (algorithm == "association"):
         if (chaining == "backward"):
-            result = backward(features, attribute_name_values)
+            result = backward(features, attribute_name_values, algorithm="association")
         elif (chaining == "forward"):
             result = forward(features, attribute_name_values, algorithm="association")
         else:
@@ -140,7 +140,7 @@ def forward(features, attribute_name_values, algorithm="decision_tree"):
         if fact.template.name == 'log-message':
             log_messages.append(str(fact['text']))
         if fact.template.name == 'diagnosis':
-            res = fact['name']
+            res = fact['name'].replace("category=", "")
             results.append(res)
             if (result_dict.get(res)):
                 result_dict[res] += 1
@@ -224,7 +224,7 @@ def backward(features, attribute_name_values, algorithm="decision_tree"):
     res = ""
     for soln in prolog_response:
         res = soln['Category']
-        res = res.replace("\"", "").replace('\n','')
+        res = res.replace("\"", "").replace('\n','').replace("category=", "")
         rule_id = soln['RuleID']
         print(f"Rule {rule_id} fired → Prediction: {res}")
     
@@ -238,10 +238,10 @@ def backward(features, attribute_name_values, algorithm="decision_tree"):
             antecedents[i] = antecedents[i].strip()
             feature_name = re.search('(\w+\s\w+|\w+-\w+|\w+)', antecedents[i]).group(0)
             relational_op = re.search('<=|>=|<|>|!=|=|=:=', antecedents[i]).group(0)
-            value = re.search(r'\d+\.\d+', antecedents[i]).group(0)
+            # value = re.search(r'\d+\.\d+', antecedents[i]).group(0)
             # print(f"Feature: {feature_name}, Relational Operator: {relational_op}, Value: {value}")
             if (features[feature_name] == "?"):
-                print(f"Feature: {feature_name}, Relational Operator: {relational_op}, Value: {value}")
+                # print(f"Feature: {feature_name}, Relational Operator: {relational_op}, Value: {value}")
                 result = {
                     "disease": "No Result",
                 }

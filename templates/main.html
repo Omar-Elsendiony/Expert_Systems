@@ -717,21 +717,29 @@
             }
             feature_interpretation_list = data.interpretation;
             // Update interpretation string
+            const seenFeatures = new Set();  // Track already seen feature names
             let interpretationString = "<ul>";
             for (const record in feature_interpretation_list) {
                 // interpretationString += `<li>${feature_interpretation_list[record]["feature"]} is ${feature_interpretation_list[record]["value"]}</li>`;
                 // interpretationString += ``;
+                // console.log(feature_interpretation_list[record]);
+                // check if it contains a space and replace it with a hyphen
+                feature_interpretation_list[record]["feature"] = feature_interpretation_list[record]["feature"].replace(/\s+/g, '-');
+                // check that this feature was not already selected
                 full_feature_name = (document.querySelector(`label[for="${feature_interpretation_list[record]["feature"]}"]`).innerText);
                 full_value_name = (document.querySelector(`option[value="${feature_interpretation_list[record]["value"]}"]`).innerText);
+                if (seenFeatures.has(full_feature_name)) {
+                    continue;
+                }
+                seenFeatures.add(full_feature_name);
+                
                 interpretationString += `<li>${full_feature_name}  ${full_value_name}</li>`;
             }
             interpretationString += "</ul>";
             // console.log(interpretationString);
             document.getElementById("disease-name").textContent = data.disease;
             document.getElementById("interpretation-string").innerHTML = interpretationString;
-            // Show result modal
             modal.style.display = "block";
-
         };
 
         // Close modal when X is clicked

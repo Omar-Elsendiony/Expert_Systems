@@ -17985,11 +17985,11 @@ check_condition(Facts, Feature =:= Value) :-
     number(X),
     X =:= Value.
 
-check_condition(Facts, Feature =<:= Value) :-
+check_condition(Facts, Feature =\= Value) :-
     atom(Feature),
     member(feature(Feature, X), Facts),
     number(X),
-    X =<:= Value.
+    X =\= Value.
 
 % Step 4: Define the classification predicate
 % The cut (!) ensures we stop at the first matching rule
