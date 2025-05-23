@@ -90,6 +90,18 @@
             overflow: auto;
             background-color: rgba(0,0,0,0.4);
         }
+        .noResultModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
@@ -183,18 +195,41 @@
             cursor: pointer;
         }
         
+        button {
+            background-color:rgb(9, 99, 55);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color:rgb(0, 179, 146);
+        }
     </style>
 </head>
 <body>
     <img src="{{ url_for('static', filename='images/soybean.png') }}" alt="soybean image" style="width: 100px; display: block; margin: 0 auto;">
     <h1>Soybean Disease Diagnosis System</h1>
-    
+    <!-- <div>
+        <p>Welcome to the Soybean Disease Diagnosis System! This system is designed to help you diagnose potential diseases in soybean plants based on various features and environmental conditions. Please select the relevant options from the dropdown menus below.</p>
+        <p>Once you have made your selections, click the "Diagnose Disease" button to get the diagnosis results.</p>
+    </div> -->
+    <div id="randomize-buttons" style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 10px;">
+        <!-- <button onclick="randomizeSelects()">Randomize All</button>
+        <button onclick="randomizeSpecificSelects()">Randomize Specific</button> -->
+        <button onclick="randomizeExcludingFirst()">Randomize feature values</button>
+    </div>
+
     <h2 class="section-title">Plant & Environment Features</h2>
     <div class="container">
         <div class="feature">
             <label for="date">Date:</label>
             <select id="date">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="april">April</option>
                 <option value="may">May</option>
                 <option value="june">June</option>
@@ -208,7 +243,7 @@
         <div class="feature">
             <label for="plant-stand">Plant Stand:</label>
             <select id="plant-stand">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="normal">Normal</option>
                 <option value="lt-normal">Less than normal</option>
             </select>
@@ -217,7 +252,7 @@
         <div class="feature">
             <label for="precip">Precipitation:</label>
             <select id="precip">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="lt-norm">Less than normal</option>
                 <option value="norm">Normal</option>
                 <option value="gt-norm">Greater than normal</option>
@@ -227,7 +262,7 @@
         <div class="feature">
             <label for="temp">Temperature:</label>
             <select id="temp">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="lt-norm">Less than normal</option>
                 <option value="norm">Normal</option>
                 <option value="gt-norm">Greater than normal</option>
@@ -237,7 +272,7 @@
         <div class="feature">
             <label for="hail">Hail:</label>
             <select id="hail">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
             </select>
@@ -246,7 +281,7 @@
         <div class="feature">
             <label for="crop-hist">Crop History:</label>
             <select id="crop-hist">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="diff-lst-year">Different last year</option>
                 <option value="same-lst-yr">Same last year</option>
                 <option value="same-lst-two-yrs">Same last two years</option>
@@ -257,7 +292,7 @@
         <div class="feature">
             <label for="area-damaged">Area Damaged:</label>
             <select id="area-damaged">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="scattered">Scattered</option>
                 <option value="low-areas">Low areas</option>
                 <option value="upper-areas">Upper areas</option>
@@ -268,7 +303,7 @@
         <div class="feature">
             <label for="severity">Severity:</label>
             <select id="severity">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="minor">Minor</option>
                 <option value="pot-severe">Potentially severe</option>
                 <option value="severe">Severe</option>
@@ -281,7 +316,7 @@
         <div class="feature">
             <label for="seed-tmt">Seed Treatment:</label>
             <select id="seed-tmt">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="none">None</option>
                 <option value="fungicide">Fungicide</option>
                 <option value="other">Other</option>
@@ -291,7 +326,7 @@
         <div class="feature">
             <label for="germination">Germination:</label>
             <select id="germination">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="90-100%">90-100%</option>
                 <option value="80-89%">80-89%</option>
                 <option value="lt-80%">Less than 80%</option>
@@ -301,7 +336,7 @@
         <div class="feature">
             <label for="plant-growth">Plant Growth:</label>
             <select id="plant-growth">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="abnorm">Abnormal</option>
             </select>
@@ -313,7 +348,7 @@
         <div class="feature">
             <label for="leaves">Leaves:</label>
             <select id="leaves">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="abnorm">Abnormal</option>
             </select>
@@ -322,7 +357,7 @@
         <div class="feature">
             <label for="leafspots-halo">Leafspots Halo:</label>
             <select id="leafspots-halo">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="yellow-halos">Yellow halos</option>
                 <option value="no-yellow-halos">No yellow halos</option>
@@ -332,7 +367,7 @@
         <div class="feature">
             <label for="leafspots-marg">Leafspots Margin:</label>
             <select id="leafspots-marg">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="w-s-marg">With spots margin</option>
                 <option value="no-w-s-marg">No spots margin</option>
                 <option value="dna">Does not apply</option>
@@ -342,7 +377,7 @@
         <div class="feature">
             <label for="leafspot-size">Leafspot Size:</label>
             <select id="leafspot-size">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="lt-1/8">Less than 1/8 inch</option>
                 <option value="gt-1/8">Greater than 1/8 inch</option>
                 <option value="dna">Does not apply</option>
@@ -352,7 +387,7 @@
         <div class="feature">
             <label for="leaf-shread">Leaf Shredding:</label>
             <select id="leaf-shread">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -361,7 +396,7 @@
         <div class="feature">
             <label for="leaf-malf">Leaf Malformation:</label>
             <select id="leaf-malf">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -370,7 +405,7 @@
         <div class="feature">
             <label for="leaf-mild">Leaf Mildew:</label>
             <select id="leaf-mild">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="upper-surf">Upper surface</option>
                 <option value="lower-surf">Lower surface</option>
@@ -383,7 +418,7 @@
         <div class="feature">
             <label for="stem">Stem:</label>
             <select id="stem">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="abnorm">Abnormal</option>
             </select>
@@ -392,7 +427,7 @@
         <div class="feature">
             <label for="lodging">Lodging:</label>
             <select id="lodging">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
             </select>
@@ -401,7 +436,7 @@
         <div class="feature">
             <label for="stem-cankers">Stem Cankers:</label>
             <select id="stem-cankers">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="below-soil">Below soil line</option>
                 <option value="above-soil">Above soil line</option>
@@ -412,7 +447,7 @@
         <div class="feature">
             <label for="canker-lesion">Canker Lesion:</label>
             <select id="canker-lesion">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="dna">Does not apply</option>
                 <option value="brown">Brown</option>
                 <option value="dk-brown-blk">Dark brown-black</option>
@@ -423,7 +458,7 @@
         <div class="feature">
             <label for="fruiting-bodies">Fruiting Bodies:</label>
             <select id="fruiting-bodies">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -432,7 +467,7 @@
         <div class="feature">
             <label for="external-decay">External Decay:</label>
             <select id="external-decay">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="firm-and-dry">Firm and dry</option>
                 <option value="watery">Watery</option>
@@ -442,7 +477,7 @@
         <div class="feature">
             <label for="mycelium">Mycelium:</label>
             <select id="mycelium">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -451,7 +486,7 @@
         <div class="feature">
             <label for="int-discolor">Internal Discoloration:</label>
             <select id="int-discolor">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="none">None</option>
                 <option value="brown">Brown</option>
                 <option value="black">Black</option>
@@ -461,7 +496,7 @@
         <div class="feature">
             <label for="sclerotia">Sclerotia:</label>
             <select id="sclerotia">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -473,7 +508,7 @@
         <div class="feature">
             <label for="fruit-pods">Fruit Pods:</label>
             <select id="fruit-pods">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="diseased">Diseased</option>
                 <option value="few-present">Few present</option>
@@ -484,7 +519,7 @@
         <div class="feature">
             <label for="fruit-spots">Fruit Spots:</label>
             <select id="fruit-spots">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="colored">Colored</option>
                 <option value="brown-w/blk-specks">Brown with black specks</option>
@@ -496,7 +531,7 @@
         <div class="feature">
             <label for="seed">Seed:</label>
             <select id="seed">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="abnorm">Abnormal</option>
             </select>
@@ -505,7 +540,7 @@
         <div class="feature">
             <label for="mold-growth">Mold Growth:</label>
             <select id="mold-growth">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -514,7 +549,7 @@
         <div class="feature">
             <label for="seed-discolor">Seed Discoloration:</label>
             <select id="seed-discolor">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
@@ -523,7 +558,7 @@
         <div class="feature">
             <label for="seed-size">Seed Size:</label>
             <select id="seed-size">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="lt-norm">Less than normal</option>
             </select>
@@ -532,16 +567,16 @@
         <div class="feature">
             <label for="shriveling">Shriveling:</label>
             <select id="shriveling">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="absent">Absent</option>
                 <option value="present">Present</option>
             </select>
         </div>
-        
+
         <div class="feature">
             <label for="roots">Roots:</label>
             <select id="roots">
-                <option value="?">?</option>
+                <!-- <option value="?">?</option> -->
                 <option value="norm">Normal</option>
                 <option value="rotted">Rotted</option>
                 <option value="galls-cysts">Galls or cysts</option>
@@ -608,46 +643,25 @@
                 <p id="chaining-method"></p>
                 
                 <h3>Diagnosis:</h3>
-                <p id="diagnosis-result">Based on the provided features, the most likely disease is: <strong id="disease-name">Phytophthora Root Rot</strong></p>
-                
+                <p id="diagnosis-result">Based on the provided features, the most likely disease is: <strong id="disease-name"></strong></p>
+                <p id="interpretation-result">This diagnosis is based on the following reasons: <strong id="interpretation-string"></strong></p>
             </div>
         </div>
     </div>
     
+    <div id="noResultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Please provide more information</h2>
+        </div>
+    </div>
     <script>
         // Get modal elements
         const modal = document.getElementById("resultModal");
         const closeBtn = document.getElementsByClassName("close")[0];
+        const closeBtn2 = document.getElementsByClassName("close")[1];
         const diagnoseBtn = document.getElementById("diagnose-btn");
-        
-        // Define possible diseases for the demo
-        const possibleDiseases = [
-            {
-                name: "Phytophthora Root Rot",
-                confidence: "85%",
-                recommendation: "Consider applying fungicide and improving field drainage."
-            },
-            {
-                name: "Brown Stem Rot",
-                confidence: "78%",
-                recommendation: "Implement crop rotation and use resistant varieties next season."
-            },
-            {
-                name: "Bacterial Blight",
-                confidence: "92%",
-                recommendation: "Apply copper-based bactericide and avoid overhead irrigation."
-            },
-            {
-                name: "Soybean Cyst Nematode",
-                confidence: "88%",
-                recommendation: "Use resistant cultivars and rotate with non-host crops."
-            },
-            {
-                name: "Downy Mildew",
-                confidence: "75%",
-                recommendation: "Apply appropriate fungicide and improve air circulation."
-            }
-        ];
+        const noResultModal = document.getElementById("noResultModal");
         
         // Open modal when diagnose button is clicked
         diagnoseBtn.onclick = async function() {
@@ -669,57 +683,108 @@
             const selectedFeatures = {};
             document.querySelectorAll('select').forEach(select => {
                 selectedFeatures[select.id] = select.value;
-                console.log(select.id, select.value);
             });
-            // console.log(document.querySelectorAll('select'));
-            // alert(Object.keys(selectedFeatures).length); // Correct length
-            // return;
-            
-            
+
 
             // Send data to backend API
-                const response = await fetch('/diagnose', {  // Replace with your actual endpoint
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        algorithm: algorithm,
-                        chaining: chainingMethod,
-                        features: selectedFeatures
-                    })
-                });
+            const response = await fetch('/diagnose', {  // Replace with your actual endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    algorithm: algorithm,
+                    chaining: chainingMethod,
+                    features: selectedFeatures
+                })
+            });
 
-                if (!response.ok) {
-                    throw new Error("Diagnosis request failed");
-                }
+            if (!response.ok) {
+                throw new Error("Diagnosis request failed");
+            }
 
-                const data = await response.json();
-                modal.style.display = "block";
-                // Update modal content
-                document.getElementById("selected-algorithm").textContent = algorithm;
-                document.getElementById("chaining-method").textContent = chainingMethod + " Chaining";
-                document.getElementById("disease-name").textContent = data.disease;
-                // document.getElementById("confidence-level").textContent = data.confidence;
-                // document.getElementById("recommendation").textContent = data.recommendation;
-
-                // Show modal
-                modal.style.display = "block";
-
+            const data = await response.json();
+            // modal.style.display = "block";
+            // Update modal content
+            document.getElementById("selected-algorithm").textContent = algorithm;
+            document.getElementById("chaining-method").textContent = chainingMethod + " Chaining";
+            // console.log(data);
+            if (data.disease == "No Result") {
+                // Show no result modal
+                console.log("No result found");
+                noResultModal.style.display = "block";
+                return;
+            }
+            feature_interpretation_list = data.interpretation;
+            // Update interpretation string
+            let interpretationString = "<ul>";
+            for (const record in feature_interpretation_list) {
+                // interpretationString += `<li>${feature_interpretation_list[record]["feature"]} is ${feature_interpretation_list[record]["value"]}</li>`;
+                // interpretationString += ``;
+                full_feature_name = (document.querySelector(`label[for="${feature_interpretation_list[record]["feature"]}"]`).innerText);
+                full_value_name = (document.querySelector(`option[value="${feature_interpretation_list[record]["value"]}"]`).innerText);
+                interpretationString += `<li>${full_feature_name}  ${full_value_name}</li>`;
+            }
+            interpretationString += "</ul>";
+            // console.log(interpretationString);
+            document.getElementById("disease-name").textContent = data.disease;
+            document.getElementById("interpretation-string").innerHTML = interpretationString;
+            // Show result modal
+            modal.style.display = "block";
 
         };
-        
+
         // Close modal when X is clicked
         closeBtn.onclick = function() {
             modal.style.display = "none";
         };
         
+        closeBtn2.onclick = function() {
+            noResultModal.style.display = "none";
+        };
         // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         };
+
+        ////////////// RANDOMIZATION //////////////
+        function randomizeSelects() {
+            // Get all select elements
+            const selects = document.querySelectorAll('select');
+            
+            // Randomize each select
+            selects.forEach(select => {
+                const options = select.options;
+                const randomIndex = Math.floor(Math.random() * options.length);
+                select.selectedIndex = randomIndex;
+            });
+        }
+        
+        // Alternative: Randomize specific selects by ID
+        // function randomizeSpecificSelects() {
+        //     const selectIds = ['seed-size', 'shriveling'];
+            
+        //     selectIds.forEach(id => {
+        //         const select = document.getElementById(id);
+        //         const optionsCount = select.options.length;
+        //         const randomIndex = Math.floor(Math.random() * optionsCount);
+        //         select.selectedIndex = randomIndex;
+        //     });
+        // }
+        
+        // Alternative: Exclude certain options from randomization (e.g., skip "?" option)
+        function randomizeExcludingFirst() {
+            const selects = document.querySelectorAll('select');
+            
+            selects.forEach(select => {
+                const options = select.options;
+                // Skip first option (index 0, which is "?")
+                const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1;
+                select.selectedIndex = randomIndex;
+            });
+        }
     </script>
 
     <script>
@@ -730,7 +795,7 @@
                 radio.parentElement.classList.add('selected');
             });
         });
-    
+
         // Set initial selection
         document.querySelector('input[name="chaining"]:checked').parentElement.classList.add('selected');
     </script>

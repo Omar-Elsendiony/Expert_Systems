@@ -1,0 +1,71 @@
+IF leaf-mild>=2.0 THEN category=downy-mildew 
+IF leaf-mild>=1.0 THEN category=powdery-mildew 
+IF int-discolor>=2.0 THEN category=charcoal-rot 
+IF int-discolor>=1.0 THEN category=brown-stem-rot 
+IF roots>=2.0 AND date>=3.0 THEN category=cyst-nematode 
+IF canker-lesion>=3.0 AND plant-stand>=1.0 THEN category=brown-spot 
+IF canker-lesion>=3.0 AND date>=5.0 THEN category=purple-seed-stain 
+IF canker-lesion>=3.0 AND hail>=1.0 THEN category=purple-seed-stain 
+IF canker-lesion>=3.0 AND crop-hist>=2.0 THEN category=brown-spot 
+IF canker-lesion>=3.0 THEN category=purple-seed-stain 
+IF shriveling>=1.0 AND plant-growth>=1.0 THEN category=anthracnose 
+IF shriveling>=1.0 AND leafspots-marg>=2.0 THEN category=anthracnose 
+IF shriveling>=1.0 AND precip>=2.0 THEN category=diaporthe-pod-&-stem-blight 
+IF roots>=1.0 AND hail>=0.0 THEN category=bacterial-pustule 
+IF roots>=1.0 AND precip>=1.0 THEN category=phytophthora-rot 
+IF roots>=2.0 THEN category=cyst-nematode 
+IF roots>=1.0 THEN category=herbicide-injury 
+IF fruit-pods>=3.0 AND temp>=1.0 THEN category=phytophthora-rot 
+IF fruit-pods>=3.0 AND hail>=1.0 THEN category=rhizoctonia-root-rot 
+IF fruit-pods>=3.0 AND crop-hist>=3.0 THEN category=rhizoctonia-root-rot 
+IF fruit-pods>=3.0 AND leaves>=1.0 THEN category=phytophthora-rot 
+IF fruit-pods>=3.0 THEN category=rhizoctonia-root-rot 
+IF fruit spots>=4.0 THEN category=diaporthe-stem-canker 
+IF leafspots-marg>=2.0 AND date>=0.0 THEN category=anthracnose 
+IF leafspots-marg>=2.0 THEN category=2-4-d-injury 
+IF leafspots-marg>=1.0 THEN category=bacterial-pustule 
+IF canker-lesion>=2.0 THEN category=frog-eye-leaf-spot 
+IF external decay>=1.0 THEN category=frog-eye-leaf-spot 
+IF canker-lesion>=1.0 THEN category=brown-spot 
+IF stem-cankers>=3.0 THEN category=frog-eye-leaf-spot 
+IF stem>=1.0 THEN category=diaporthe-pod-&-stem-blight 
+IF seed>=1.0 THEN category=alternarialeaf-spot 
+IF leaf-malf>=1.0 AND plant-stand>=1.0 THEN category=phyllosticta-leaf-spot 
+IF leaf-malf>=1.0 AND precip>=1.0 THEN category=bacterial-blight 
+IF leaf-malf>=1.0 THEN category=phyllosticta-leaf-spot 
+IF seed-tmt>=2.0 AND precip>=2.0 THEN category=brown-spot 
+IF date>=4.0 AND hail>=1.0 THEN category=bacterial-blight 
+IF date>=4.0 AND seed-tmt>=2.0 THEN category=frog-eye-leaf-spot 
+IF plant-growth>=1.0 AND plant-stand>=1.0 THEN category=brown-spot 
+IF seed-tmt>=2.0 THEN category=phyllosticta-leaf-spot 
+IF plant-growth>=1.0 THEN category=phyllosticta-leaf-spot 
+IF temp>=2.0 AND date>=5.0 THEN category=alternarialeaf-spot 
+IF date>=4.0 AND leaf-shread>=1.0 THEN category=alternarialeaf-spot 
+IF leaf-shread>=1.0 AND plant-stand>=1.0 THEN category=brown-spot 
+IF temp>=2.0 AND crop-hist>=3.0 THEN category=alternarialeaf-spot 
+IF leaf-shread>=1.0 AND hail>=1.0 THEN category=bacterial-blight 
+IF leaf-shread>=1.0 AND precip>=2.0 THEN category=brown-spot 
+IF leaf-shread>=1.0 THEN category=bacterial-blight 
+IF hail>=1.0 AND plant-stand>=1.0 THEN category=brown-spot 
+IF hail>=1.0 THEN category=phyllosticta-leaf-spot 
+IF temp>=2.0 AND severity>=1.0 THEN category=alternarialeaf-spot 
+IF temp>=2.0 THEN category=frog-eye-leaf-spot 
+IF seed-tmt>=1.0 AND plant-stand>=1.0 AND area-damaged>=3.0 THEN category=frog-eye-leaf-spot 
+IF seed-tmt>=1.0 AND plant-stand>=1.0 THEN category=alternarialeaf-spot 
+IF crop-hist<=1.0 AND crop-hist>=1.0 THEN category=frog-eye-leaf-spot 
+IF germination<=1.0 AND plant-stand>=1.0 THEN category=phyllosticta-leaf-spot 
+IF date>=3.0 AND seed-tmt>=1.0 AND precip>=2.0 THEN category=frog-eye-leaf-spot 
+IF precip>=2.0 AND seed-tmt>=1.0 THEN category=brown-spot 
+IF seed-tmt>=1.0 AND severity>=1.0 THEN category=frog-eye-leaf-spot 
+IF seed-tmt>=1.0 THEN category=alternarialeaf-spot 
+IF area-damaged>=3.0 AND date>=4.0 THEN category=alternarialeaf-spot 
+IF area-damaged>=3.0 THEN category=brown-spot 
+IF severity>=1.0 AND crop-hist>=3.0 THEN category=frog-eye-leaf-spot 
+IF severity>=1.0 THEN category=alternarialeaf-spot 
+IF date>=4.0 AND crop-hist>=3.0 THEN category=frog-eye-leaf-spot 
+IF date>=4.0 AND plant-stand>=1.0 THEN category=alternarialeaf-spot 
+IF plant-stand>=1.0 THEN category=phyllosticta-leaf-spot 
+IF area-damaged>=1.0 THEN category=alternarialeaf-spot 
+IF date>=4.0 THEN category=frog-eye-leaf-spot 
+IF date<=2.0 THEN category=bacterial-blight 
+IF TRUE THEN category=phytophthora-rot
